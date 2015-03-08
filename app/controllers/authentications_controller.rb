@@ -3,6 +3,7 @@ class AuthenticationsController < ApplicationController
   def create	
 
 	    auth = request.env["omniauth.auth"]
+	    session[:omniauth] = auth.except('extra')
 		authentication = Authentication.find_by(provider: auth['provider'], uid: auth['uid'])
 
 			  if authentication
@@ -12,7 +13,7 @@ class AuthenticationsController < ApplicationController
 
 			  elsif current_user
 			  
-			    current_user.authentications.create!(:provider => auth['provider'], :uid => auth['uid'])
+			    current_user.authentications.create!(:provider => auth['provider'], :uid => auth['uid'], :avatar => auth['info']['image'])
 			    flash[:notice] = "Authentication successful."
 			    redirect_to authentications_url	
 
@@ -21,16 +22,14 @@ class AuthenticationsController < ApplicationController
 			    	user = User.find_by_email(auth['info']['email'])
 				    
 				    if user
-		  			    user.authentications.create!(:provider => auth['provider'], :uid => auth['uid'])
+		  			    user.authentications.create!(:provider => auth['provider'], :uid => auth['uid'], :avatar => auth['info']['image'])
 				    	sign_in_and_redirect(user)
 				    else
-				    	session[:omniauth] = auth.except('extra')
 		  				redirect_to other_providers_new_pat
 				    end
 			  
 			   else
-				
-				 session[:omniauth] = auth.except('extra')
+
 	  			 redirect_to other_providers_new_path
 
 			   end

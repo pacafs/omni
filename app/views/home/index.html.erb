@@ -2,10 +2,10 @@
 <p>Find me in app/views/home/index.html.erb</p>
 
  <% if current_user %>
- 	<h2><%= current_user.email %></h2>
+ 	<h2><%= current_user.email %></h2> <%= image_tag(current_user.authentications.where(provider: session[:omniauth]['provider']).first.avatar) %>
  	<li class="page-scroll">
         <%= link_to "Sign Out", destroy_user_session_path, method: :delete  %>
-    </li>
+  </li>
  <% else %>
       <li class="page-scroll">
         <%= link_to "Sign In", new_user_session_path  %>

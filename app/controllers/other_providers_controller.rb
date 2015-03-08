@@ -21,7 +21,7 @@ class OtherProvidersController < ApplicationController
 
 	 	user = User.create!(email: params[:email], password: params[:password])
 	 	if user.save
-	 		user.authentications.create(:provider => session[:omniauth]['provider'], :uid => session[:omniauth]['uid'])
+	 		user.authentications.create(:provider => session[:omniauth]['provider'], :uid => session[:omniauth]['uid'], :avatar => session[:omniauth]['info']['image'])
 	 		sign_in_and_redirect(user)
 	 	else
 	 		redirect_to root_path, :notice => "Its Fuck up my Boy!!!"
