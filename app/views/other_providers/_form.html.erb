@@ -1,0 +1,15 @@
+<%= form_tag "/other_providers/create", :id => "myform" do %>
+  
+  <div class="field">
+    <%= text_field_tag :email %>
+  </div>
+
+  <div class="field">
+    <%= password_field_tag :password %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag 'Complete Sign Up' %>
+  </div>
+
+<% end %>

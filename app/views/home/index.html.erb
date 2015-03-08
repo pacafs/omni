@@ -1,0 +1,26 @@
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+ <% if current_user %>
+ 	<h2><%= current_user.email %></h2>
+ 	<li class="page-scroll">
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete  %>
+    </li>
+ <% else %>
+      <li class="page-scroll">
+        <%= link_to "Sign In", new_user_session_path  %>
+      </li>
+   
+      <li class="page-scroll">
+         <%= link_to "Sign in with Facebook", "auth/facebook" %>
+      </li>
+
+      <li class="page-scroll">
+         <%= link_to "Sign in with Twitter", "auth/twitter" %>
+      </li>
+
+      <li class="page-scroll">
+         <%= link_to "Sign in with Github", "auth/github" %>
+      </li>	
+
+<% end %>
