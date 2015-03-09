@@ -7,11 +7,12 @@ class AuthenticationsController < ApplicationController
 		authentication = Authentication.find_by(provider: auth['provider'], uid: auth['uid'])
 
 			  if authentication
-			   	
+
 		   		flash[:notice] = "Signed in successfully."
 		    	sign_in_and_redirect(:user, authentication.user)
 
-			  elsif current_user
+			  elsif condition
+			   	 current_user
 			  
 			    current_user.authentications.create!(:provider => auth['provider'], :uid => auth['uid'], :avatar => auth['info']['image'])
 			    flash[:notice] = "Authentication successful."
@@ -25,7 +26,7 @@ class AuthenticationsController < ApplicationController
 		  			    user.authentications.create!(:provider => auth['provider'], :uid => auth['uid'], :avatar => auth['info']['image'])
 				    	sign_in_and_redirect(user)
 				    else
-		  				redirect_to other_providers_new_pat
+		  				redirect_to other_providers_new_path
 				    end
 			  
 			   else
@@ -44,8 +45,5 @@ class AuthenticationsController < ApplicationController
   end
 
 end
-
-
-
 
 
