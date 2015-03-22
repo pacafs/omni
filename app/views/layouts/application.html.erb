@@ -5,15 +5,75 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
+
+<div class="bs-example bs-navbar-top-example" data-example-id="navbar-fixed-to-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <h1><%= link_to 'Omni', root_path %></h1>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+          
+          <% if current_user && @auth %>
+
+          	  <ul class="nav navbar-nav navbar-right" style="margin-top: 10px;">
+          	  	<li><%= link_to "Profile", "/profile" %></li>
+	          	  <li><%= image_tag(@auth['info']['image'], width: '50', height: '50', class: 'img-circle') %></li>
+	          	  <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+	            </ul>
+
+	      <% elsif current_user && !@auth %>
+
+      			  <ul class="nav navbar-nav navbar-right" style="margin-top: 10px;">
+      			  	 <li><%= link_to "Profile", "/profile" %></li>
+      	         <li><%= link_to destroy_user_session_path, method: :delete do %>Log Out<% end %></li>
+      	      </ul>
+
+          <% else %>      
+
+  	          <ul class="nav navbar-nav navbar-right">
+                 <li><%= link_to "users/sign_in" do %>Sign In<% end %></li>
+  	             <li><%= link_to "auth/facebook" do %><%= image_tag('facebook.png', width: '40', height: '40') %><% end %></li>
+  	             <li><%= link_to "auth/github" do %><%= image_tag('github.png', width: '40', height: '40') %><% end %></li>
+  	             <li><%= link_to "auth/twitter" do %><%= image_tag('twitter.png', width: '40', height: '40') %><% end %></li>
+  	          </ul>
+
+          <% end %>
+
+        </div><!-- /.navbar-collapse -->
+
+      </div>
+    </nav>
+  </div>
+
+<br>
+<br>
+<br>
+<br>
+
 <% flash.each do |key, value| %>
 <div class="alert alert-info"><%= value %></div>
-<% end %>
+<% end %>			
 
 <%= yield %>
 
 </body>
 </html>
-
-

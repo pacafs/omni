@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   
   root 'home#index'
 
-  get 'profile' => 'home#profile'
+  get '/profile' => 'home#profile'
 
-  devise_for :users, :controllers => {:registrations => 'registrations'}
+  devise_for :users
   
   resources :authentications  
 

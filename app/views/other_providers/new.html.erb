@@ -1,1 +1,10 @@
-<%= render 'form' %>
+<div class="container">
+	<div class="jumbotron">
+	  <div class="text-center">
+		  <h1><%= @auth['provider'].capitalize %></h1>
+		  <h4>Unfortenatly this service does not provide an email address.</h4>
+		  <p>Please enter your email and password to associate the provider with your own account:</p>
+		  <%= render 'form' %>
+	  </div>
+	</div>
+</div>

@@ -1,35 +1,39 @@
 class OtherProvidersController < ApplicationController
-  
+
   def new
   	@user = User.new
+  	@auth = session[:omniauth]
   end
 
   def create
   	 auth = session[:omniauth]  
      user = User.where(email: params[:email]).first
 
-     if user 
-     	
-     	if user.valid_password?(params[:password])
-     		user.authentications.create(:provider => auth['provider'], :uid => auth['uid'], :avatar => auth['info']['image'])
-     		sign_in_and_redirect(user)
-	 	else
-	 		redirect_to other_providers_new_path, :notice => "Password Email Combination Error!"
-	 	end
 
-	 else
+    if user
 
-	 	user = User.create!(email: params[:email], password: params[:password])
-	 	if user.save
-	 		user.authentications.create(:provider => session[:omniauth]['provider'], :uid => session[:omniauth]['uid'], :avatar => session[:omniauth]['raw_info']['avatar_url'])
-	 		sign_in_and_redirect(user)
-	 	else
-	 		redirect_to root_path, :notice => "Its Fuck up my Boy!!!"
-	 	end
+       	if user.valid_password?(params[:password])
+       		 user.create_auth_to_user(auth)
+       		 sign_in_and_redirect(user)
+  	  	else
+  	 		   redirect_to other_providers_new_path, :notice => "Invalid password/email combination!"
+  	  	end
 
-	 end
+	  else
+
+    	 	user = User.create_user(params[:email], params[:password])
+
+    	 	if user.save
+    	 		user.create_auth_to_user(auth)
+    	 		sign_in_and_redirect(user)
+    	 	else
+    	 		redirect_to root_path, :notice => "Something went wrong!"
+    	 	end
+
+	  end
+
 
   end
 
-
 end
+
